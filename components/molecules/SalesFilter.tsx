@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from '../atoms/Input';
 
 interface SalesFilterProps {
@@ -12,9 +12,24 @@ export const SalesFilter: React.FC<SalesFilterProps> = ({
   threshold,
   onThresholdChange,
 }) => {
+  const [inputValue, setInputValue] = useState<string>(threshold === 0 ? '' : threshold.toString());
+
+  useEffect(() => {
+    setInputValue(threshold === 0 ? '' : threshold.toString());
+  }, [threshold]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value) || 0;
-    onThresholdChange(value);
+    const value = e.target.value;
+    setInputValue(value);
+    
+    if (value === '') {
+      onThresholdChange(0);
+    } else {
+      const numValue = parseInt(value, 10);
+      if (!isNaN(numValue) && numValue >= 0) {
+        onThresholdChange(numValue);
+      }
+    }
   };
 
   return (
@@ -23,8 +38,9 @@ export const SalesFilter: React.FC<SalesFilterProps> = ({
         type="number"
         label="Sales Threshold"
         placeholder="Enter minimum sales amount"
-        value={threshold}
+        value={inputValue}
         onChange={handleChange}
+        className="font-bold bg-blue-50 text-gray-900"
       />
     </div>
   );
