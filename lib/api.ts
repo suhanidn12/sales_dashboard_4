@@ -1,12 +1,18 @@
 import { YearlySales } from './salesData';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const getApiUrl = () => {
+  if (typeof window !== 'undefined') {
+    return window.location.origin;
+  }
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+};
 
 export async function fetchSalesData(year?: number): Promise<YearlySales[]> {
   try {
+    const baseUrl = getApiUrl();
     const url = year 
-      ? `${API_BASE_URL}/api/sales?year=${year}`
-      : `${API_BASE_URL}/api/sales`;
+      ? `${baseUrl}/api/sales?year=${year}`
+      : `${baseUrl}/api/sales`;
     
     const response = await fetch(url, {
       method: 'GET',
