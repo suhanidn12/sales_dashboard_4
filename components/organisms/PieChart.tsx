@@ -13,13 +13,13 @@ const COLORS = ['#3b82f6', '#60a5fa', '#93c5fd', '#dbeafe', '#2563eb', '#1d4ed8'
 
 export const PieChart: React.FC<PieChartProps> = ({ data, threshold = 0 }) => {
   const filteredData = data.filter(item => item.sales >= threshold);
-  const chartData = filteredData.map(item => ({ ...item }));
+  const chartData: Array<{ month: string; sales: number; [key: string]: any }> = filteredData.map(item => ({ ...item }));
 
   return (
     <ResponsiveContainer width="100%" height={400}>
       <RechartsPieChart>
         <Pie
-          data={chartData as any}
+          data={chartData}
           cx="50%"
           cy="50%"
           labelLine={false}
