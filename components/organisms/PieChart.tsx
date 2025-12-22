@@ -18,7 +18,6 @@ export const PieChart: React.FC<PieChartProps> = ({ data, threshold = 0 }) => {
   return (
     <ResponsiveContainer width="100%" height={400}>
       <RechartsPieChart>
-        {/* @ts-expect-error - Recharts Pie component type definition issue */}
         <Pie
           data={chartData as any}
           cx="50%"
